@@ -6,6 +6,8 @@ CRSAlertView is a Xamarin component built for iOS that replaces the stock UIAler
 
 CRSAlertView was built by the mobile team at [Curse, Inc.](https://curseinc.com) and is used extensively in the [Curse Voice for iOS](https://itunes.apple.com/us/app/curse/id935720218) app.
 
+![sample](Resources/sample.png)
+
 ## Installing
 
 **Coming soon to a Xamarin Component Store near you!**
@@ -14,7 +16,11 @@ If Xamarin Components aren't your thing, then you can just drag the `CRSAlertVie
 
 ## Using
 
-CRSAlertView has three main parts that are worth mentioning - the alert view itself, alert actions, and an alert input. The alert view is self-explanatory. Alert actions are little bits of functionality that are associated to button presses on an alert view. The alert input is a case that we needed for Curse Voice Mobile that we decided to extend through this library as well. It allows a user's input of text, and for you as the developer to grab that during an alert action if you so wish.
+CRSAlertView has three main parts that are worth mentioning - the alert view itself, alert actions, and an alert input. The alert view is self-explanatory. Alert actions are little bits of functionality that are associated to button presses on an alert view. The alert input is a case that we needed for Curse Voice Mobile that we decided to extend through this library as well. It allows a user's input of text, and for you as the developer to grab that during an alert action if you so wish. Just add this to the top of any class you want to use the alert in:
+
+```c#
+using Curse;
+```
 
 #### Alert Actions
 
@@ -84,7 +90,9 @@ There are several defaults set statically on the CRSAlertView class that will de
 // Colors
 public static UIColor Tint = UIColor.FromRGB (3, 127, 241);
 public static UIColor Background = UIColor.FromRGB(0xf3, 0xf3, 0xf3);
-public static UIColor TextColor = UIColor.Black;
+public static UIColor TitleTextColor = UIColor.Black;
+public static UIColor MessageTextColor = UIColor.Black;
+public static UIColor InputTextColor = UIColor.Black;
 public static UIColor ButtonBackground = UIColor.FromRGB (228, 228, 228);
 public static UIColor ButtonHighlighted = UIColor.FromRGB (210, 210, 210);
 public static UIColor SeparatorColor = UIColor.FromRGB( 212, 212, 212 );
@@ -97,10 +105,10 @@ public static UIFont AlertButtonHighlightedFont = UIFont.BoldSystemFontOfSize(16
 public static UIFont AlertButtonNormalFont = UIFont.SystemFontOfSize(16f);
 ```
 
-So to change something like the main text color of the alert view to red, just do something like this:
+So to change something like the title text color of the alert view to red, just do something like this:
 
 ```c#
-CRSAlertView.TextColor = UIColor.Red;
+CRSAlertView.TitleTextColor = UIColor.Red;
 ```
 
 And that should propagate to all alert views that are created until that property is set again.

@@ -4,7 +4,7 @@ using Foundation;
 using UIKit;
 using CoreAnimation;
 
-namespace CRSAlertView
+namespace Curse
 {
 	public class CRSAlertView : UIView
 	{
@@ -23,7 +23,9 @@ namespace CRSAlertView
 		// Colors
 		public static UIColor Tint = UIColor.FromRGB (3, 127, 241);
 		public static UIColor Background = UIColor.FromRGB(0xf3, 0xf3, 0xf3);
-		public static UIColor TextColor = UIColor.Black;
+		public static UIColor TitleTextColor = UIColor.Black;
+		public static UIColor MessageTextColor = UIColor.Black;
+		public static UIColor InputTextColor = UIColor.Black;
 		public static UIColor ButtonBackground = UIColor.FromRGB (228, 228, 228);
 		public static UIColor ButtonHighlighted = UIColor.FromRGB (210, 210, 210);
 		public static UIColor SeparatorColor = UIColor.FromRGB( 212, 212, 212 );
@@ -145,14 +147,15 @@ namespace CRSAlertView
 			_image = new UIImageView {
 				Frame = new CGRect (_alertContainer.Frame.Width/2 - imageWidth/2, pad, Image != null ? imageWidth : 0, Image != null ? imageWidth : 0),
 				BackgroundColor = UIColor.Clear,
-				TintColor = TextColor,
-				Image = Image ?? new UIImage()
+				TintColor = TitleTextColor,
+				Image = Image ?? new UIImage(),
+				ContentMode = UIViewContentMode.ScaleAspectFit
 			};
 
 			_title = new UILabel {
 				Frame = new CGRect( pad/2, _image.Frame.Width > 0 ? _image.Frame.Bottom + 5 : pad, _alertContainer.Frame.Width - pad, 24.0f),
 				Text = Title,
-				TextColor = TextColor,
+				TextColor = TitleTextColor,
 				Font = TitleFont,
 				Lines = 1,
 				AdjustsFontSizeToFitWidth = true,
@@ -163,7 +166,7 @@ namespace CRSAlertView
 			_message = new UILabel {
 				Frame = new CGRect( pad/2, _title.Frame.Bottom + 2, _alertContainer.Frame.Width - pad, 20.0f),
 				Text = Message,
-				TextColor = TextColor,
+				TextColor = MessageTextColor,
 				Font = MessageFont,
 				Lines = 0,
 				TextAlignment = UITextAlignment.Center
@@ -184,7 +187,7 @@ namespace CRSAlertView
 					BackgroundColor = UIColor.White,
 					Placeholder = Input.Placeholder != null ? Input.Placeholder : "",
 					Text = Input.Text != null ? Input.Text : "",
-					TextColor = TextColor,
+					TextColor = InputTextColor,
 					Font = InputFont,
 					BorderStyle = UITextBorderStyle.None,
 					Alpha = 0f,
@@ -249,10 +252,10 @@ namespace CRSAlertView
 				btn.TouchUpOutside += (sender, e) => {
 					btn.BackgroundColor = ButtonBackground;
 				};
-				btn.TouchUpInside += (sender, e) => {
+				btn.TouchUpInside += (sender, e) => { 
 					DidSelectAction((int)btn.Tag);
 				};
-				btn.SetTitleColor (action.Highlighted ? action.TintColor : TextColor, UIControlState.Normal);
+				btn.SetTitleColor (action.Highlighted ? (action.TintColor ?? Tint) : TitleTextColor, UIControlState.Normal);
 				_alertContainer.Add (btn);
 				if (i < Actions.Length - 1) {
 					var s = new UIView {
