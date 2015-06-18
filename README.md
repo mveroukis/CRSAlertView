@@ -12,7 +12,7 @@ CRSAlertView was built by the mobile team at [Curse, Inc.](https://curseinc.com)
 
 **Coming soon to a Xamarin Component Store near you!**
 
-If Xamarin Components aren't your thing, then you can just drag the `CRSAlertView.cs` class into your project by hand. CRSAlertView is built using the Unified iOS API.
+If Xamarin Components aren't your thing, then you can just drag the `CRSAlertView.cs` class into your project by hand. CRSAlertView is built using the Unified iOS API. This class is located at `component/src/CRSAlertView/Source/CRSAlertView.cs`.
 
 ## Using
 
