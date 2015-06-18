@@ -7,11 +7,11 @@ license: License.md
 icons: 
   - resources/CRSAlertView_128x128.png
   - resources/CRSAlertView_512x512.png
-publisher-url: https://www.curseinc.com
+publisher-url: http://www.curseinc.com
 build:
   - src/CRSAlertView.sln 
 libraries: 
-  ios: src/CRSAlertView/bin/release/CRSAlertView.dll
+  ios-unified: src/CRSAlertView/bin/release/CRSAlertView.dll
 summary: A custom, beautiful substitute to UIAlertView
 details: Details.md
 screenshots: 

@@ -68,7 +68,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="CRSAlertView">
-      <HintPath>..\..\..\..\lib\ios\CRSAlertView.dll</HintPath>
+      <HintPath>..\..\..\..\src\CRSAlertView\bin\Release\CRSAlertView.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
