@@ -10,7 +10,11 @@ CRSAlertView was built by the mobile team at [Curse, Inc.](https://curseinc.com)
 
 ## Installing
 
-**Coming soon to a Xamarin Component Store near you!**
+**Xamarin Component Store**
+
+You can use this library by going to the [Xamarin Component Store](https://components.xamarin.com/view/crsalertview) in your Xamarin Studio editor, and searching directly for `CRSAlertView`.
+
+**The Old Fashioned Way**
 
 If Xamarin Components aren't your thing, then you can just drag the `CRSAlertView.cs` class into your project by hand. CRSAlertView is built using the Unified iOS API. This class is located at `component/src/CRSAlertView/Source/CRSAlertView.cs`.
 
