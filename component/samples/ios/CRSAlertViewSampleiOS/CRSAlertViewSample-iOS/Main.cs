@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace CRSAlertViewSample
+namespace CRSAlertViewSampleiOS
 {
 	public class Application
 	{

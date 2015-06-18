@@ -1,0 +1,25 @@
+%YAML 1.2
+---
+name: CRSAlertView
+id: CRSAlertView
+publisher: Curse, Inc.
+license: License.md
+icons: 
+  - resources/CRSAlertView_128x128.png
+  - resources/CRSAlertView_512x512.png
+publisher-url: https://www.curseinc.com
+build:
+  - src/CRSAlertView.sln 
+libraries: 
+  ios: src/CRSAlertView/bin/release/CRSAlertView.dll
+summary: A custom, beautiful substitute to UIAlertView
+details: Details.md
+screenshots: 
+  - resources/sample.png
+getting-started: GettingStarted.md
+version: 1.0.0
+samples: 
+  - name: "iOS Sample"
+    path: samples/ios/CRSAlertViewSampleiOS/CRSAlertViewSample.sln
+    configuration: "Release|iPhone"
+    nobuild: true

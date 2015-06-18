@@ -1,13 +1,3 @@
-![banner](component/resources/banner.png)
-
-## About
-
-CRSAlertView is a Xamarin component built for iOS that replaces the stock UIAlertView with something a little more customizable and beautiful. Off the bat, CRSAlertView provides support for an icon image and text input so your alert can be more like a modular information view that takes screen precedence. 
-
-CRSAlertView was built by the mobile team at [Curse, Inc.](https://curseinc.com) and is used extensively in the [Curse Voice for iOS](https://itunes.apple.com/us/app/curse/id935720218) app.
-
-![sample](component/resources/sample.png)
-
 ## Installing
 
 **Coming soon to a Xamarin Component Store near you!**
@@ -122,7 +112,3 @@ alertView.Show();
 ```
 
 Hiding an alert view can be done by either calling `Hide()` on the instance, or by letting the alert actions call it themselves. Any time a user clicks on an alert action the hide function is called as well. **You don't have to manually call Hide() unless you want to do some from another event.**
-
-## License
-
-CRSAlertView is covered under the standard MIT License, which you can read [here](LICENSE).

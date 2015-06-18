@@ -3,7 +3,7 @@ using UIKit;
 using CoreGraphics;
 using Curse;
 
-namespace CRSAlertViewSample
+namespace CRSAlertViewSampleiOS
 {
 	public class ViewController : UIViewController
 	{
