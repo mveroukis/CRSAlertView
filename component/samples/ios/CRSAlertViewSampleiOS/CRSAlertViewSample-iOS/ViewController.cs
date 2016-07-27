@@ -68,13 +68,40 @@ namespace CRSAlertViewSampleiOS
 					_text.Text = _preAcceptText + _postAcceptText;
 				}
 			};
-			var alertView = new CRSAlertView {
-				Title = "Sample Alert",
+            var alertView = new CRSAlertView {
+                Title = "Select one", //"Sample Alert",
 				Message = "This is pretty sweet huh? Thanks for taking the time to sample this project. Click accept if you accept that you're an extremely awesome individual.",
 				Actions = new CRSAlertAction[]{ cancelAction, acceptAction },
-				Image = UIImage.FromBundle("logo_black.png")
+				Image = null//UIImage.FromBundle("logo_black.png")
 			};
-			alertView.Show ();
+
+            var action1 = new CRSAlertActionBar()
+            {
+                Image = UIImage.FromBundle("logo_white.png"),
+                Text = "Action One",
+                ImageTintColor = UIColor.Purple
+            };
+
+            var action2 = new CRSAlertActionBar()
+            {
+                Image = UIImage.FromBundle("logo_white.png"),
+                Text = "Action Two",
+                TintColor = UIColor.Red
+            };
+
+            var action3 = new CRSAlertActionBar()
+            {
+                Image = UIImage.FromBundle("logo_white.png"),
+                Text = "Action Three!!!!",
+                TintColor = UIColor.Blue,
+                Highlighted = true
+            };
+
+            CRSAlertView.TitleTextColor = UIColor.Red;
+
+            alertView.ActionBars = new CRSAlertActionBar[] { action1, action2, action3 };
+
+            alertView.Show ();
 		}
 		#endregion
 	}

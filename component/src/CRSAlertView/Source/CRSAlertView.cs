@@ -71,7 +71,8 @@ namespace Curse
 		}
 		public CRSAlertInput Input { get; set; }
 		public CRSAlertAction[] Actions { get; set; }
-		public bool IsShowing {
+        public CRSAlertActionBar[] ActionBars { get; set; }
+        public bool IsShowing {
 			get {
 				return Superview != null;
 			}
@@ -133,8 +134,10 @@ namespace Curse
 
 			// Build Container
 			nfloat imageWidth = 40f;
-			nfloat buttonWidth = (CRSAlertView.AlertWindow.Frame.Width - 2 * pad) / Actions.Length;
-			nfloat buttonHeight = 60f;
+            nfloat buttonWidthFull = (CRSAlertView.AlertWindow.Frame.Width - 2 * pad);
+            nfloat buttonWidth = (CRSAlertView.AlertWindow.Frame.Width - 2 * pad) / Actions.Length;
+
+            nfloat buttonHeight = 60f;
 
 			_alertContainer = new UIView {
 				Frame = new CGRect (pad, 0, CRSAlertView.AlertWindow.Frame.Width - 2 * pad, pad),
@@ -236,35 +239,96 @@ namespace Curse
 			};
 			_alertContainer.AddSubviews (new UIView[] { _image, _title, _message, _bottomSeparator });
 
-			for (int i = 0; i < Actions.Length; i++) {
+            UIButton actionButton = null;
+
+            // AlertActionBars
+            for (int i = 0; i < ActionBars.Length; i++)
+            {
+                var action = ActionBars[i];
+                actionButton = new UIButton
+                {
+                    Frame = new CGRect(0, _bottomSeparator.Frame.Bottom + (buttonHeight * i), buttonWidthFull, buttonHeight),
+                    BackgroundColor = ButtonBackground,
+                    Font = action.Highlighted ? AlertButtonHighlightedFont : AlertButtonNormalFont
+                };
+
+                if (action.Image != null)
+                {
+                    if (action.ImageTintColor != null)
+                    {
+                        actionButton.SetImage(action.Image.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), UIControlState.Normal);
+                        actionButton.ImageView.TintColor = action.ImageTintColor;
+                    }
+                    else
+                    {
+                        actionButton.SetImage(action.Image, UIControlState.Normal);
+                    }
+                }
+
+                actionButton.ContentMode = UIViewContentMode.ScaleAspectFit;
+                actionButton.SetTitle(string.IsNullOrEmpty(action.Text) ? "" : action.Text, UIControlState.Normal);
+                actionButton.Tag = i;
+                actionButton.TouchDown += (sender, e) => {
+                    actionButton.BackgroundColor = ButtonHighlighted;
+                };
+                actionButton.TouchUpOutside += (sender, e) => {
+                    actionButton.BackgroundColor = ButtonBackground;
+                };
+                actionButton.TouchUpInside += (sender, e) => {
+                    DidSelectAction((int)actionButton.Tag);
+                };
+                actionButton.SetTitleColor(action.Highlighted ? (action.TintColor ?? Tint) : TitleTextColor, UIControlState.Normal);
+                _alertContainer.Add(actionButton);
+
+                if (i < ActionBars.Length - 1 || Actions != null)
+                {
+                    var s = new UIView
+                    {
+                        Frame = new CGRect(actionButton.Frame.Left, actionButton.Frame.Bottom - 1, buttonWidthFull, 1),
+                        BackgroundColor = SeparatorColor
+                    };
+                    _alertContainer.Add(s);
+                }
+            }
+
+            var bottom = (actionButton != null) ? actionButton.Frame.Bottom : _bottomSeparator.Frame.Bottom;
+
+            // AlertActions
+            for (int i = 0; i < Actions.Length; i++) {
 				CRSAlertAction action = Actions [i];
-				var btn = new UIButton {
-					Frame = new CGRect(buttonWidth*i, _bottomSeparator.Frame.Bottom, buttonWidth, buttonHeight),
+                actionButton = new UIButton {
+                    Frame = new CGRect(buttonWidth*i, bottom, buttonWidth, buttonHeight),
 					BackgroundColor = ButtonBackground,
 					Font = action.Highlighted ? AlertButtonHighlightedFont : AlertButtonNormalFont
 				};
-				btn.ContentMode = UIViewContentMode.ScaleAspectFit;
-				btn.SetTitle (string.IsNullOrEmpty (action.Text) ? "" : action.Text, UIControlState.Normal);
-				btn.Tag = i;
-				btn.TouchDown += (sender, e) => {
-					btn.BackgroundColor = ButtonHighlighted;
+
+                actionButton.ContentMode = UIViewContentMode.ScaleAspectFit;
+				actionButton.SetTitle (string.IsNullOrEmpty (action.Text) ? "" : action.Text, UIControlState.Normal);
+				actionButton.Tag = i;
+				actionButton.TouchDown += (sender, e) => {
+					actionButton.BackgroundColor = ButtonHighlighted;
 				};
-				btn.TouchUpOutside += (sender, e) => {
-					btn.BackgroundColor = ButtonBackground;
+				actionButton.TouchUpOutside += (sender, e) => {
+					actionButton.BackgroundColor = ButtonBackground;
 				};
-				btn.TouchUpInside += (sender, e) => { 
-					DidSelectAction((int)btn.Tag);
+				actionButton.TouchUpInside += (sender, e) => { 
+					DidSelectAction((int)actionButton.Tag);
 				};
-				btn.SetTitleColor (action.Highlighted ? (action.TintColor ?? Tint) : TitleTextColor, UIControlState.Normal);
-				_alertContainer.Add (btn);
-				if (i < Actions.Length - 1) {
-					var s = new UIView {
-						Frame = new CGRect(btn.Frame.Right - 1, btn.Frame.Top, 1, buttonHeight),
-						BackgroundColor = SeparatorColor
-					};
-					_alertContainer.Add (s);
-				}
-			}
+				actionButton.SetTitleColor (action.Highlighted ? (action.TintColor ?? Tint) : TitleTextColor, UIControlState.Normal);
+				_alertContainer.Add(actionButton);
+
+                if (i < Actions.Length - 1)
+                {
+                    var s = new UIView
+                    {
+                        Frame = new CGRect(actionButton.Frame.Right - 1, actionButton.Frame.Top, 1, buttonHeight),
+                        BackgroundColor = SeparatorColor
+                    };
+                    _alertContainer.Add(s);
+                }
+            }
+
+
 			nfloat alertEnd = (_alertContainer.Subviews[_alertContainer.Subviews.Length - 1] as UIView).Frame.Bottom;
 			_alertContainer.Frame = new CGRect (_alertContainer.Frame.Left, _alertContainer.Frame.Top, _alertContainer.Frame.Width, alertEnd);
 			_alertContainer.Center = new CGPoint (CRSAlertView.AlertWindow.Frame.Width / 2, CRSAlertView.AlertWindow.Frame.Height / 2);
@@ -446,13 +510,23 @@ namespace Curse
 		public string Text { get; set; }
 		public bool Highlighted { get; set; }
 		public UIColor TintColor { get; set; }
-		public Action<CRSAlertView> DidSelect { get; set; }
+        public Action<CRSAlertView> DidSelect { get; set; }
 	}
-	#endregion
+    #endregion
 
 
-	#region Alert Input
-	public class CRSAlertInput
+    #region Alert Action Bar
+    public class CRSAlertActionBar : CRSAlertAction
+    {
+        public UIImage Image { get; set; }
+        private UIColor _imageTintColor = null;
+        public UIColor ImageTintColor { get { return _imageTintColor; } set { _imageTintColor = value; } }
+    }
+    #endregion
+
+
+    #region Alert Input
+    public class CRSAlertInput
 	{
 		public UIImage Image { get; set; }
 		public string Placeholder { get; set; }
