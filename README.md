@@ -41,6 +41,23 @@ var action = new CRSAlertAction {
 };
 ```
 
+#### Alert Action Bars
+
+Similar to the Alert Actions, except these take up the full width of the alert and stack up vertically. Additionally, you can specify an image and an image tint.
+
+```c#
+var action = new CRSAlertAction {
+	Text = "Cancel",
+	Highlighted = true,
+	TintColor = UIColor.Cyan,
+	Image = UIImage.FromBundle("logo_white.png"),
+	ImageTintColor = UIColor.Purple,
+	DidSelect = (alert) => {
+		// Do something here on press
+	}
+};
+```
+
 The first part of an alert action, `Text`, is the button text that is displayed on the CRSAlertView. `Highlighted` is used in conjunction with `TintColor` to denote whether this action should appear bolded and a different color. TintColor is not used if Highlighted == false. Using both of these properties smartly can help aid your users to find the actions that are important much easier than just a set of buttons that all appear with the same weight. The final property, `DidSelect`, is an `Action<CRSAlertView>` that is called whenever that button is selected. By passing the alert view back you can look at and use various properties on it to do anything necessary on selection. **`Text` is the only mandatory property, the others are optional.**
 
 #### Alert View
@@ -56,11 +73,22 @@ var action = new CRSAlertAction {
 		// Do something here on press
 	}
 };
+var actionBar = new CRSAlertActionBar {
+	Text = "Cancel",
+	Highlighted = true,
+	TintColor = UIColor.Cyan,
+	Image = UIImage.FromBundle("logo_white.png"),
+	ImageTintColor = UIColor.Purple,
+	DidSelect = (alert) => {
+		// Do something here on press
+	}
+};
 var alertView = new CRSAlertView {
 	Title = "Hello World!",
 	Message = "This alert actually works :)",
 	Image = UIImage.FromBundle("someIcon"),
-	Actions = new CRSAlertAction[] { action }
+	Actions = new CRSAlertAction[] { action },
+	ActionBars = new CRSAlertActionBar[] { actionBar }
 };
 alertView.Show();
 ```
