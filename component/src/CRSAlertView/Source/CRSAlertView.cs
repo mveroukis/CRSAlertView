@@ -266,6 +266,8 @@ namespace Curse
                     {
                         actionButton.SetImage(action.Image, UIControlState.Normal);
                     }
+
+                    actionButton.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
                 }
 
                 actionButton.ContentMode = UIViewContentMode.ScaleAspectFit;
