@@ -239,13 +239,16 @@ namespace Curse
 			};
 			_alertContainer.AddSubviews (new UIView[] { _image, _title, _message, _bottomSeparator });
 
-            UIButton actionButton = null;
+            int tag = 0;
+
+
+            var bottom = _bottomSeparator.Frame.Bottom;
 
             // AlertActionBars
             for (int i = 0; i < ActionBars.Length; i++)
             {
                 var action = ActionBars[i];
-                actionButton = new UIButton
+                var actionButton = new UIButton
                 {
                     Frame = new CGRect(0, _bottomSeparator.Frame.Bottom + (buttonHeight * i), buttonWidthFull, buttonHeight),
                     BackgroundColor = ButtonBackground,
@@ -267,7 +270,7 @@ namespace Curse
 
                 actionButton.ContentMode = UIViewContentMode.ScaleAspectFit;
                 actionButton.SetTitle(string.IsNullOrEmpty(action.Text) ? "" : action.Text, UIControlState.Normal);
-                actionButton.Tag = i;
+                actionButton.Tag = tag++;
                 actionButton.TouchDown += (sender, e) => {
                     actionButton.BackgroundColor = ButtonHighlighted;
                 };
@@ -289,14 +292,14 @@ namespace Curse
                     };
                     _alertContainer.Add(s);
                 }
-            }
 
-            var bottom = (actionButton != null) ? actionButton.Frame.Bottom : _bottomSeparator.Frame.Bottom;
+                bottom = actionButton.Frame.Bottom;
+            }
 
             // AlertActions
             for (int i = 0; i < Actions.Length; i++) {
 				CRSAlertAction action = Actions [i];
-                actionButton = new UIButton {
+                var actionButton = new UIButton {
                     Frame = new CGRect(buttonWidth*i, bottom, buttonWidth, buttonHeight),
 					BackgroundColor = ButtonBackground,
 					Font = action.Highlighted ? AlertButtonHighlightedFont : AlertButtonNormalFont
@@ -304,7 +307,7 @@ namespace Curse
 
                 actionButton.ContentMode = UIViewContentMode.ScaleAspectFit;
 				actionButton.SetTitle (string.IsNullOrEmpty (action.Text) ? "" : action.Text, UIControlState.Normal);
-				actionButton.Tag = i;
+				actionButton.Tag = tag++;
 				actionButton.TouchDown += (sender, e) => {
 					actionButton.BackgroundColor = ButtonHighlighted;
 				};
@@ -424,7 +427,14 @@ namespace Curse
 				Input.Text = _inputTextField.Text;
 			}
 
-			Hide (Actions[i].DidSelect);
+            if (i < ActionBars.Length)
+            {
+                Hide(ActionBars[i].DidSelect);
+            }
+            else
+            {
+                Hide(Actions[i - ActionBars.Length].DidSelect);
+            }
 		}
 		#endregion
 
